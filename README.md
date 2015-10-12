@@ -1,5 +1,5 @@
 # qif-writer [![NPM version][npm-image]][npm-url] [![Build Status][travis-image]][travis-url] [![Dependency Status][daviddm-image]][daviddm-url]
-> JS library to write QIF (Quicken Interchange Format) files
+> JS module to write QIF (Quicken Interchange Format) files
 
 
 ## Install

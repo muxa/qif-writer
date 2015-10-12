@@ -1,7 +1,7 @@
 {
   "name": "qif-writer",
   "version": "0.0.0",
-  "description": "JS library to write QIF (Quicken Interchange Format) files",
+  "description": "JS module to write QIF (Quicken Interchange Format) files",
   "homepage": "",
   "author": {
     "name": "Mikhail Diatchenko",
