@@ -36,6 +36,95 @@ describe('qif-writer', function() {
     });
 
     // assert
-    assert(bufferWriter.buffer.should.startWith('!Type:Test'));
+    bufferWriter.buffer.should.startWith('!Type:Test');
+  });
+
+  it('should end transaction with ^', function() {
+    // arrange
+    transactions.push({});
+
+    // act
+    qifWriter.write(transactions, {
+      output: bufferWriter.write
+    });
+
+    // assert
+    bufferWriter.buffer.should.endWith('^\n');
+  });
+
+  it('should write transaction details', function() {
+    // arrange
+    transactions.push({
+      date: '12/10/2015',
+      amount: 10.99,
+      payee: 'Payee',
+      category: 'Category',
+      memo: 'Memo'
+    });
+
+    // act
+    qifWriter.write(transactions, {
+      output: bufferWriter.write
+    });
+
+    // assert
+    bufferWriter.buffer.should.contain('D12/10/2015\n');
+    bufferWriter.buffer.should.contain('T10.99\n');
+    bufferWriter.buffer.should.contain('PPayee\n');
+    bufferWriter.buffer.should.contain('LCategory\n');
+    bufferWriter.buffer.should.contain('MMemo\n');
+  });
+
+  it('should throw error when splits don\'t total to amount', function() {
+    // arrange
+    transactions.push({
+      amount: 3,
+      split: [{
+        amount: 1
+      }, {
+        amount: 1
+      }]
+    });
+
+    function act() {
+      qifWriter.write(transactions, {
+        output: bufferWriter.write
+      })
+    }
+
+    // act & assert
+    act.should.Throw('Total amount and sum of splits is not the same');
+  });
+
+  it('should write transaction split', function() {
+    // arrange
+    transactions.push({
+      date: '12/10/2015',
+      amount: 10.99,
+      split: [{
+        amount: 3.00,
+        category: 'Split Category 1',
+        memo: 'Split Memo 1'
+      }, {
+        amount: 7.99,
+        category: 'Split Category 2',
+        memo: 'Split Memo 2'
+      }]
+    });
+
+    // act
+    qifWriter.write(transactions, {
+      output: bufferWriter.write
+    });
+
+    // assert
+    assert(bufferWriter.buffer.should.contain('D12/10/2015\n'));
+    assert(bufferWriter.buffer.should.contain('T10.99\n'));
+    assert(bufferWriter.buffer.should.contain('$3\n'));
+    assert(bufferWriter.buffer.should.contain('SSplit Category 1\n'));
+    assert(bufferWriter.buffer.should.contain('ESplit Memo 1\n'));
+    assert(bufferWriter.buffer.should.contain('$7.99\n'));
+    assert(bufferWriter.buffer.should.contain('SSplit Category 2\n'));
+    assert(bufferWriter.buffer.should.contain('ESplit Memo 2\n'));
   });
 });
