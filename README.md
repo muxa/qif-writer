@@ -44,7 +44,7 @@ var options = {
 };
 qif.write(transactions, options);
 ```
-This write the following to `stdout`:
+This writes the following to `stdout`:
 ```
 !Type:Bank
 D1/Jan/2015
