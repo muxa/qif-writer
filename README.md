@@ -12,9 +12,65 @@ $ npm install --save qif-writer
 ## Usage
 
 ```js
-var qifWriter = require('qif-writer');
+var qif = require('qif-writer');
 
-qifWriter('Rainbow');
+var transactions = [
+  {
+    date: '1/Jan/2015',
+    amount: 10.50,
+    payee: 'Local Coffee',
+    category: 'Cafe'
+  },
+  {
+    date: '2/Jan/2015',
+    amount: 105,
+    payee: 'Sample',
+    memo: 'To demonstrate split',
+    splits: [
+      {
+        amount: 5,
+        category: 'Bank Charges',
+        memo: 'Bank fees'  
+      },
+      {
+        amount: 100,
+        category: 'Transfer: Savings'
+      }
+    ]
+  }
+];
+var options = {
+  type: 'Bank'
+};
+qif.write(transactions, options);
+```
+This write the following to `stdout`:
+```
+!Type:Bank
+D1/Jan/2015
+T10.5
+PLocal Coffee
+LCafe
+^
+D2/Jan/2015
+T105
+PSample
+MTo demonstrate split
+$5
+SBank Charges
+EBank fees
+$100
+STransfer: Savings
+^
+```
+
+### Options
+Default options are:
+```js
+{
+  type: 'Cash',
+  output: process.stdout.write.bind(process.stdout)
+};
 ```
 
 ## License
