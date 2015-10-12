@@ -1,8 +1,8 @@
 {
   "name": "qif-writer",
-  "version": "0.0.0",
+  "version": "0.1.0",
   "description": "JS module to write QIF (Quicken Interchange Format) files",
-  "homepage": "",
+  "homepage": "https://github.com/muxa/qif-writer",
   "author": {
     "name": "Mikhail Diatchenko",
     "email": "mikhail.diatchenko@gmail.com",
