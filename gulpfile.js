@@ -27,6 +27,33 @@ gulp.task('pre-test', function() {
     .pipe(istanbul.hookRequire());
 });
 
+gulp.task('sample', function() {
+  var qif = require('./lib/index');
+
+  qif.write([{
+    date: '1/Jan/2015',
+    amount: 10.50,
+    payee: 'Local Coffee',
+    category: 'Cafe'
+  }, {
+    date: '2/Jan/2015',
+    amount: 105,
+    payee: 'Sample',
+    memo: 'To demonstrate split',
+    splits: [{
+      amount: 5,
+      category: 'Bank Charges',
+      memo: 'Bank fees'
+    }, {
+      amount: 100,
+      category: 'Transfer: Savings'
+    }]
+  }], {
+    type: 'Bank'
+  });
+
+});
+
 gulp.task('test', ['pre-test'], function(cb) {
   var mochaErr;
 

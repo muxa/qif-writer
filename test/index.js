@@ -79,7 +79,7 @@ describe('qif-writer', function() {
     // arrange
     transactions.push({
       amount: 3,
-      split: [{
+      splits: [{
         amount: 1
       }, {
         amount: 1
@@ -101,7 +101,7 @@ describe('qif-writer', function() {
     transactions.push({
       date: '12/10/2015',
       amount: 10.99,
-      split: [{
+      splits: [{
         amount: 3.00,
         category: 'Split Category 1',
         memo: 'Split Memo 1'
